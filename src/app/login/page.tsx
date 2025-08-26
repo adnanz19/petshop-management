@@ -25,12 +25,11 @@ export default function LoginPage() {
 
             try {
                 await loginUser(email, password);
-                router.push("/dashboard");
+                router.push("/dashboard/customer");
             } catch (error: any) {
                 setError(error.message || "Failed to login");
             } finally {
                 setLoading(false);
-
             }
     };
 

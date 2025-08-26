@@ -5,8 +5,50 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useEffect, useState} from "react";
+import { getCustomers, addCustomer, deleteCustomer } from "@/lib/firestore";
+import { useRouter } from "next/navigation";
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DialogHeader, DialogFooter } from "@/components/ui/dialog";
 
 export default function CustomerPage() {
+    const router = useRouter();
+    const [authorized, setAuthorized] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+        router.push("/login");
+        } else {
+        setAuthorized(true);
+        }
+    }, [router]);
+
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [customers, setCustomers] = useState<any[]>([]);
+
+    const handleAddCustomer = () => {
+        const customer = { name, gender, phone, address };
+        addCustomer(customer);
+    };
+
+    const handleDeleteCustomer = (id: string) => {
+        deleteCustomer(id);
+        setCustomers((prev) => prev.filter((customer) => customer.id !== id));
+    };
+
+    useEffect(() => {
+        const fetchCustomers = async () => {
+            const data = await getCustomers();
+            setCustomers(data);
+        };
+
+        fetchCustomers();
+    }, []);
+
     return (
         <div className="pt-3 flex flex-col gap-4 w-full">
             <h1 className="font-bold text-2xl">Manajemen Pelanggan</h1>
@@ -19,40 +61,68 @@ export default function CustomerPage() {
                     Silakan lengkapi informasi berikut untuk menambahkan pelanggan baru.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-col gap-5">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="flex flex-col gap-2">
-                        <Label>Nama Pelanggan</Label>
-                        <Input type="text" placeholder="Masukkan nama pelanggan" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <Label>Email</Label>
-                        <Input type="email" placeholder="Masukkan email pelanggan" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <Label>No. Telepon</Label>
-                        <Input type="text" placeholder="Masukkan nomor telepon" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <Label>Alamat</Label>
-                        <Input type="text" placeholder="Masukkan alamat pelanggan" />
-                    </div>
-                    </div>
+                <CardContent >
+                    <form onSubmit={handleAddCustomer} className="flex flex-col gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div className="flex flex-col gap-2">
+                            <Label>Nama Pelanggan</Label>
+                            <Input 
+                            type="text" 
+                            placeholder="Masukkan nama pelanggan" 
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Label>Jenis Kelamin</Label>
+                            <Select 
+                            value={gender}
+                            onValueChange={(value) => setGender(value)}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Pilih jenis kelamin" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="Laki-laki">Laki-laki</SelectItem>
+                                    <SelectItem value="Perempuan">Perempuan</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Label>Alamat</Label>
+                            <Input 
+                            type="text" 
+                            placeholder="Masukkan alamat pelanggan" 
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Label>Kontak</Label>
+                            <Input 
+                            type="text" 
+                            placeholder="Masukkan nomor telepon" 
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            />
+                        </div>
+                        </div>
+                        <div className="flex justify-end">
+                            <Button type="submit" className="bg-[#9F580A] w-">Tambah Pelanggan</Button>
+                        </div>
+                    </form>
                 </CardContent>
-                <CardFooter className="flex justify-end">
-                    <Button className="bg-[#9F580A]">Tambah Pelanggan</Button>
-                </CardFooter>
             </Card>
             <Card>
-                <CardHeader className="text-lg font-semibold">
-                    Daftar Pelanggan
+                <CardHeader className="gap-0">
+                    <CardTitle  className="text-lg font-semibold">Daftar Pelanggan</CardTitle>
+                    <CardDescription>Ini adalah daftar pelanggan yang terdaftar di sistem.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
-                            <TableHead>ID Pelanggan</TableHead>
-                            <TableHead>Nama</TableHead>
+                            <TableHead>Nama Pelanggan</TableHead>
                             <TableHead>Jenis Kelamin</TableHead>
                             <TableHead>Alamat</TableHead>
                             <TableHead>Kontak</TableHead>
@@ -60,16 +130,42 @@ export default function CustomerPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow>
-                            <TableCell>001</TableCell>
-                            <TableCell>Budi Santoso</TableCell>
-                            <TableCell>Laki-laki</TableCell>
-                            <TableCell>Jl. Merdeka No. 10</TableCell>
-                            <TableCell>08123456789</TableCell>
-                            <TableCell>
-                                <Button variant="destructive" size="sm">Delete</Button>
-                            </TableCell>
-                            </TableRow>
+                            {customers.map((customer: any) => (
+                                <TableRow key={customer.id}>
+                                    <TableCell>{customer.name}</TableCell>
+                                    <TableCell>{customer.gender}</TableCell>
+                                    <TableCell>{customer.address}</TableCell>
+                                    <TableCell>{customer.phone}</TableCell>
+                                    <TableCell>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button variant="destructive" size="sm">Delete</Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Konfirmasi Hapus</DialogTitle>
+                                                <DialogDescription>
+                                                Apakah kamu yakin ingin menghapus data pelanggan ini? Tindakan ini tidak bisa dibatalkan.
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <DialogFooter>
+                                                <DialogClose asChild>
+                                                    <Button variant="outline">Batal</Button>
+                                                </DialogClose>
+                                                <Button
+                                                variant="destructive"
+                                                onClick={async () => {
+                                                    await handleDeleteCustomer(customer.id);
+                                                }}
+                                                >
+                                                Hapus
+                                                </Button>
+                                            </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </CardContent>
