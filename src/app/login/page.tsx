@@ -26,8 +26,8 @@ export default function LoginPage() {
             try {
                 await loginUser(email, password);
                 router.push("/dashboard");
-            } catch (error) {
-                setError("Failed to login");
+            } catch (error: any) {
+                setError(error.message || "Failed to login");
             } finally {
                 setLoading(false);
 
@@ -45,7 +45,7 @@ export default function LoginPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={handleLogin} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-6">
                         <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
@@ -68,16 +68,16 @@ export default function LoginPage() {
                             required />
                         </div>
                     </div>
+                    {error && <p className="text-red-500">{error}</p>}
+                    <Button type="submit" disabled={loading} className="w-full">
+                    {loading ? "Logging in..." : "Login"}
+                    </Button>
                     </form>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    {error && <p className="text-red-500">{error}</p>}
-                    <Button type="submit" onClick={handleLogin} disabled={loading} className="w-full">
-                    {loading ? "Logging in..." : "Login"}
-                    </Button>
                     <CardDescription>
-                    Don't have an account? <></>
-                    <Link href="/register" className="text-[#9F580A] font-semibold hover:underline">Register</Link>
+                        Don't have an account? <></>
+                        <Link href="/register" className="text-[#9F580A] font-semibold hover:underline">Register</Link>
                     </CardDescription>
                 </CardFooter>
             </Card>

@@ -25,8 +25,8 @@ export default function RegisterPage() {
         try {
             await registerUser(email, password);
             router.push("/login");
-        } catch (error) {
-            setError("Failed to register");
+        } catch (error: any) {
+            setError(error.message || "Failed to register");
         } finally {
             setLoading(false);
         }
@@ -43,40 +43,40 @@ export default function RegisterPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
-                    <div className="flex flex-col gap-6">
-                        <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="email@example.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
+                    <form onSubmit={handleRegister} className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-6">
+                            <div className="grid gap-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                placeholder="email@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                            </div>
+                            <div className="grid gap-2">
+                            <Label htmlFor="password">Password</Label>
+                            <Input 
+                                id="password" 
+                                type="password" 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required 
+                            />
+                            </div>
                         </div>
-                        <div className="grid gap-2">
-                        <Label htmlFor="password">Password</Label>
-                        <Input 
-                            id="password" 
-                            type="password" 
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required 
-                        />
-                        </div>
-                    </div>
+                        {error && <p className="text-red-500">{error}</p>}
+                        <Button type="submit" className="w-full">
+                        Register
+                        </Button>
                     </form>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    {error && <p className="text-red-500">{error}</p>}
-                    <Button type="submit" onClick={handleRegister} className="w-full">
-                    Register
-                    </Button>
                     <CardDescription>
-                    Already have an account? <></>
-                    <Link href="/login" className="text-[#9F580A] font-semibold hover:underline">Login</Link>
+                        Already have an account? <></>
+                        <Link href="/login" className="text-[#9F580A] font-semibold hover:underline">Login</Link>
                     </CardDescription>
                 </CardFooter>
             </Card>
