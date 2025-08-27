@@ -10,6 +10,7 @@ import { getInventoryItems, addInventoryItem, deleteInventoryItem } from "@/lib/
 import { useRouter } from "next/navigation";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DialogHeader, DialogFooter } from "@/components/ui/dialog";
+import { set } from "date-fns";
 
 export default function InventoryPage() {
     const router = useRouter();
@@ -35,9 +36,11 @@ export default function InventoryPage() {
     const [price, setPrice] = useState("");
     const [inventoryItems, setInventoryItems] = useState<any[]>([]);
 
-    const handleAddInventoryItem = () => {
+    const handleAddInventoryItem = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const item = { name, category, stock: Number(stock), price: Number(price) };
-        addInventoryItem(item);
+        const id = await addInventoryItem(item);
+        setInventoryItems((prev) => [...prev, { id, ...item }]);
 
         setName("");
         setCategory("");

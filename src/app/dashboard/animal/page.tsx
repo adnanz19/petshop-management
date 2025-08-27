@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -20,6 +20,11 @@ export default function AnimalPage() {
     const [owners, setOwners] = useState<string[]>([]);
     const [selectedOwner, setSelectedOwner] = useState<string>("");
     const [animals, setAnimals] = useState<any[]>([]);
+    const [isClient, setIsClient] = useState(false)
+ 
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -113,36 +118,44 @@ export default function AnimalPage() {
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label>Jenis Kelamin</Label>
-                            <Select 
-                            value={gender}
-                            onValueChange={(value) => setGender(value)}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih jenis kelamin" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Laki-laki">Laki-laki</SelectItem>
-                                    <SelectItem value="Perempuan">Perempuan</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            {
+                                isClient && (
+                                    <Select 
+                                        value={gender}
+                                        onValueChange={(value) => setGender(value)}
+                                    >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Pilih jenis kelamin" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Laki-laki">Laki-laki</SelectItem>
+                                            <SelectItem value="Perempuan">Perempuan</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                )
+                            }
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label>Nama Pemilik</Label>
-                            <Select
-                            value={selectedOwner}
-                            onValueChange={setSelectedOwner}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih nama pemilik" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {owners.map((owner: any) => (
-                                        <SelectItem key={owner.id} value={owner.id}>
-                                            {owner.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                            {
+                                isClient && (
+                                    <Select
+                                    value={selectedOwner}
+                                    onValueChange={setSelectedOwner}
+                                    >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Pilih nama pemilik" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {owners.map((owner: any) => (
+                                                <SelectItem key={owner.id} value={owner.id}>
+                                                    {owner.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                )
+                            }
                         </div>
                         </div>
                         <div className="flex justify-end">
