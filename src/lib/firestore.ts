@@ -56,3 +56,27 @@ export const getInventoryItems = async () => {
 export const deleteInventoryItem = async (id: string) => {
   await deleteDoc(doc(db, "inventory", id));
 };
+
+export const addBooking = async (booking: { animals: string; service: string; date: Date | undefined; time: string }) => {
+  const docRef = await addDoc(collection(db, "bookings"), booking);
+  return docRef.id; // return ID dokumen
+};
+
+export const getBookings = async () => {
+  const querySnapshot = await getDocs(collection(db, "bookings"));
+  const bookings: any[] = [];
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    bookings.push({
+      id: doc.id,
+      ...data,
+      date: data.date?.toDate ? data.date.toDate() : data.date, 
+    });
+  });
+  return bookings;
+};
+
+
+export const deleteBooking = async (id: string) => {
+  await deleteDoc(doc(db, "bookings", id));
+};

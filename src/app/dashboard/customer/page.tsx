@@ -35,9 +35,11 @@ export default function CustomerPage() {
     const [address, setAddress] = useState("");
     const [customers, setCustomers] = useState<any[]>([]);
 
-    const handleAddCustomer = () => {
+    const handleAddCustomer = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const customer = { name, gender, phone, address };
-        addCustomer(customer);
+        const id = await addCustomer(customer);
+        setCustomers((prev) => [...prev, { id, ...customer }]);
 
         setName("");
         setGender("");
