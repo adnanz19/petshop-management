@@ -35,16 +35,24 @@ export default function AnimalPage() {
 
     const handleAddAnimal = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const ownerObj = owners.find((o: any) => o.id === selectedOwner);
         const newAnimal = {
             name,
             species,
             race,
             gender,
             age: Number(age),
-            owner: selectedOwner,
+            owner: ownerObj ? ownerObj : "",
         };
         const id = await addAnimal(newAnimal);
         setAnimals([...animals, { id, ...newAnimal }]);
+
+        setName("");
+        setSpecies("");
+        setRace("");
+        setGender("");
+        setAge("");
+        setSelectedOwner("");
     };
 
     const handleDeleteAnimal = async (id: string) => {
@@ -100,7 +108,7 @@ export default function AnimalPage() {
                             type="text" 
                             placeholder="Masukkan usia hewan" 
                             value={age}
-                            onChange={(e) => setAge(e.target.value)}
+                            onChange={((e) => setAge(e.target.value))}
                             />
                         </div>
                         <div className="flex flex-col gap-2">
@@ -129,7 +137,7 @@ export default function AnimalPage() {
                                 </SelectTrigger>
                                 <SelectContent>
                                     {owners.map((owner: any) => (
-                                        <SelectItem key={owner.id} value={owner.name}>
+                                        <SelectItem key={owner.id} value={owner.id}>
                                             {owner.name}
                                         </SelectItem>
                                     ))}

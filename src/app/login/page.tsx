@@ -34,7 +34,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="h-screen flex items-center justify-center flex-col gap-2">
+        <div className="h-screen flex items-center justify-center flex-col gap-4">
             <Image src="/petshop-logo1.svg" alt="petshop_logo" width={300} height={300} />
             <Card className="w-full max-w-sm">
                 <CardHeader className="text-center">

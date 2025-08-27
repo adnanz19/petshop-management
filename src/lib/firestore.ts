@@ -38,3 +38,21 @@ export const getAnimals = async () => {
 export const deleteAnimal = async (id: string) => {
   await deleteDoc(doc(db, "animals", id));
 };
+
+export const addInventoryItem = async (item: { name: string; category: string; stock: number; price: number }) => {
+  const docRef = await addDoc(collection(db, "inventory"), item);
+  return docRef.id; // return ID dokumen
+};
+
+export const getInventoryItems = async () => {
+  const querySnapshot = await getDocs(collection(db, "inventory"));
+  const inventoryItems: any[] = [];
+  querySnapshot.forEach((doc) => {
+    inventoryItems.push({ id: doc.id, ...doc.data() });
+  });
+  return inventoryItems;
+};
+
+export const deleteInventoryItem = async (id: string) => {
+  await deleteDoc(doc(db, "inventory", id));
+};

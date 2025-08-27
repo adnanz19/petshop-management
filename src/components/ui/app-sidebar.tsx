@@ -1,5 +1,10 @@
-import { User, Cat, Warehouse, CalendarCheck } from "lucide-react"
+"use client"
 
+import { User, Cat, Warehouse, CalendarCheck } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { signOut } from "firebase/auth"
+import { auth } from "@/lib/firebase"
+import { useRouter } from "next/navigation"
 import {
   Sidebar,
   SidebarContent,
@@ -9,6 +14,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarFooter
 } from "@/components/ui/sidebar"
 
 // Menu items.
@@ -36,11 +42,13 @@ const items = [
 ]
 
 export default function AppSidebar() {
+const router = useRouter();
+
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -57,6 +65,9 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <Button variant="destructive" onClick={() => signOut(auth).then(() => router.push("/login"))}>Logout</Button>
+      </SidebarFooter>
     </Sidebar>
   )
 }

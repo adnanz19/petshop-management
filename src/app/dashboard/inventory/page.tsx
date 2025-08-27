@@ -6,12 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useEffect, useState} from "react";
-import { getCustomers, addCustomer, deleteCustomer } from "@/lib/firestore";
+import { getInventoryItems, addInventoryItem, deleteInventoryItem } from "@/lib/firestore";
 import { useRouter } from "next/navigation";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DialogHeader, DialogFooter } from "@/components/ui/dialog";
 
-export default function CustomerPage() {
+export default function InventoryPage() {
     const router = useRouter();
     const [authorized, setAuthorized] = useState(false);
     const [isClient, setIsClient] = useState(false)
@@ -30,91 +30,93 @@ export default function CustomerPage() {
     }, [router]);
 
     const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
-    const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
-    const [customers, setCustomers] = useState<any[]>([]);
+    const [category, setCategory] = useState("");
+    const [stock, setStock] = useState("");
+    const [price, setPrice] = useState("");
+    const [inventoryItems, setInventoryItems] = useState<any[]>([]);
 
-    const handleAddCustomer = () => {
-        const customer = { name, gender, phone, address };
-        addCustomer(customer);
+    const handleAddInventoryItem = () => {
+        const item = { name, category, stock: Number(stock), price: Number(price) };
+        addInventoryItem(item);
 
         setName("");
-        setGender("");
-        setPhone("");
-        setAddress("");
+        setCategory("");
+        setStock("");
+        setPrice("");
     };
 
-    const handleDeleteCustomer = (id: string) => {
-        deleteCustomer(id);
-        setCustomers((prev) => prev.filter((customer) => customer.id !== id));
+    const handleDeleteInventoryItem = (id: string) => {
+        deleteInventoryItem(id);
+        setInventoryItems((prev) => prev.filter((item) => item.id !== id));
     };
 
     useEffect(() => {
-        const fetchCustomers = async () => {
-            const data = await getCustomers();
-            setCustomers(data);
+        const fetchInventoryItems = async () => {
+            const data = await getInventoryItems();
+            setInventoryItems(data);
         };
 
-        fetchCustomers();
+        fetchInventoryItems();
     }, []);
 
     return (
         <div className="pt-3 flex flex-col gap-4 w-full">
-            <h1 className="font-bold text-2xl">Manajemen Pelanggan</h1>
+            <h1 className="font-bold text-2xl">Manajemen Inventaris</h1>
             <Card className="w-full">
                 <CardHeader className="gap-0">
                     <CardTitle className="text-lg font-semibold">
-                    Form Penambahan Pelanggan
+                    Form Penambahan Inventaris
                     </CardTitle>
                     <CardDescription>
-                    Silakan lengkapi informasi berikut untuk menambahkan pelanggan baru.
+                    Silakan lengkapi informasi berikut untuk menambahkan inventaris baru.
                     </CardDescription>
                 </CardHeader>
                 <CardContent >
-                    <form onSubmit={handleAddCustomer} className="flex flex-col gap-5">
+                    <form onSubmit={handleAddInventoryItem} className="flex flex-col gap-5">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div className="flex flex-col gap-2">
-                                <Label>Nama Pelanggan</Label>
+                                <Label>Nama Barang</Label>
                                 <Input 
                                 type="text" 
-                                placeholder="Masukkan nama pelanggan" 
+                                placeholder="Masukkan nama barang" 
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label>Jenis Kelamin</Label>
-                                {
-                                    isClient && (
-                                        <Select value={gender} onValueChange={setGender}>
-                                            <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Pilih jenis kelamin" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="Laki-laki">Laki-laki</SelectItem>
-                                                <SelectItem value="Perempuan">Perempuan</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    )
+                                <Label>Kategori</Label>
+                                { isClient && (
+                                    <Select value={category} onValueChange={setCategory}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Pilih kategori" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="makanan">Makanan Hewan</SelectItem>
+                                            <SelectItem value="minuman">Minuman Hewan</SelectItem>
+                                            <SelectItem value="perawatan">Perawatan Hewan</SelectItem>
+                                            <SelectItem value="aksesori">Aksesori Hewan</SelectItem>
+                                            <SelectItem value="lainnya">Lainnya</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                )
                                 }
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label>Alamat</Label>
+                                <Label>Stok</Label>
                                 <Input 
-                                type="text" 
-                                placeholder="Masukkan alamat pelanggan" 
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                                />
+                                type="number" 
+                                placeholder="Masukkan stok" 
+                                value={stock}
+                                onChange={(e) => setStock(e.target.value)}
+                                />  
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label>Kontak</Label>
+                                <Label>Harga Per Satuan</Label>
                                 <Input 
-                                type="text" 
-                                placeholder="Masukkan nomor telepon" 
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                type="number" 
+                                placeholder="Masukkan harga" 
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -133,20 +135,20 @@ export default function CustomerPage() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                            <TableHead>Nama Pelanggan</TableHead>
-                            <TableHead>Jenis Kelamin</TableHead>
-                            <TableHead>Alamat</TableHead>
-                            <TableHead>Kontak</TableHead>
+                            <TableHead>Nama Barang</TableHead>
+                            <TableHead>Jenis Barang</TableHead>
+                            <TableHead>Stok</TableHead>
+                            <TableHead>Harga Per Satuan (RP)</TableHead>
                             <TableHead>Aksi</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {customers.map((customer: any) => (
-                                <TableRow key={customer.id}>
-                                    <TableCell>{customer.name}</TableCell>
-                                    <TableCell>{customer.gender}</TableCell>
-                                    <TableCell>{customer.address}</TableCell>
-                                    <TableCell>{customer.phone}</TableCell>
+                            {inventoryItems.map((item: any) => (
+                                <TableRow key={item.id}>
+                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{item.category}</TableCell>
+                                    <TableCell>{item.stock}</TableCell>
+                                    <TableCell>{item.price}</TableCell>
                                     <TableCell>
                                         <Dialog>
                                             <DialogTrigger asChild>
@@ -166,7 +168,7 @@ export default function CustomerPage() {
                                                 <Button
                                                 variant="destructive"
                                                 onClick={async () => {
-                                                    await handleDeleteCustomer(customer.id);
+                                                    await handleDeleteInventoryItem(item.id);
                                                 }}
                                                 >
                                                 Hapus
