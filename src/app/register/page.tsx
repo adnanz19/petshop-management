@@ -33,7 +33,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="h-screen flex-col flex gap-2 items-center justify-center">
+        <div className="h-screen flex-col flex gap-4 items-center justify-center">
             <Image src="/petshop-logo1.svg" alt="petshop_logo" width={300} height={300} />
             <Card className="w-full max-w-sm">
                 <CardHeader className="text-center">
