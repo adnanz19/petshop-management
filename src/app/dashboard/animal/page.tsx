@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
-import { addAnimal, deleteAnimal, getAnimals } from "@/lib/firestore";
+import { addAnimal, deleteAnimal, getAnimals, Animal, Customer } from "@/lib/firestore";
 import { getCustomers } from "@/lib/firestore";
 
 export default function AnimalPage() {
@@ -17,9 +17,9 @@ export default function AnimalPage() {
     const [race, setRace] = useState("");
     const [gender, setGender] = useState("");
     const [age, setAge] = useState("");
-    const [owners, setOwners] = useState<string[]>([]);
+    const [owners, setOwners] = useState<Customer[]>([]);
     const [selectedOwner, setSelectedOwner] = useState<string>("");
-    const [animals, setAnimals] = useState<any[]>([]);
+    const [animals, setAnimals] = useState<Animal[]>([]);
     const [isClient, setIsClient] = useState(false)
  
     useEffect(() => {
@@ -40,14 +40,14 @@ export default function AnimalPage() {
 
     const handleAddAnimal = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const ownerObj = owners.find((o: any) => o.id === selectedOwner);
+        const ownerObj = owners.find((o: Customer) => o.id === selectedOwner);
         const newAnimal = {
             name,
             species,
             race,
             gender,
             age: Number(age),
-            owner: ownerObj ? ownerObj : "",
+            owner: ownerObj ? ownerObj : {} as Customer,
         };
         const id = await addAnimal(newAnimal);
         setAnimals([...animals, { id, ...newAnimal }]);
@@ -141,13 +141,12 @@ export default function AnimalPage() {
                                 isClient && (
                                     <Select
                                     value={selectedOwner}
-                                    onValueChange={setSelectedOwner}
-                                    >
+                                    onValueChange={setSelectedOwner}>
                                         <SelectTrigger className="w-full">
                                             <SelectValue placeholder="Pilih nama pemilik" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {owners.map((owner: any) => (
+                                            {owners.map((owner: Customer) => (
                                                 <SelectItem key={owner.id} value={owner.id}>
                                                     {owner.name}
                                                 </SelectItem>
@@ -183,7 +182,7 @@ export default function AnimalPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {animals.map((animal: any) => (
+                            {animals.map((animal: Animal) => (
                                 <TableRow key={animal.id}>
                                     <TableCell>{animal.name}</TableCell>
                                     <TableCell>{animal.species}</TableCell>
@@ -210,7 +209,7 @@ export default function AnimalPage() {
                                                 <Button
                                                 variant="destructive"
                                                 onClick={async () => {
-                                                    await handleDeleteAnimal(animal.id);
+                                                    await handleDeleteAnimal(animal.id!);
                                                 }}
                                                 >
                                                 Hapus

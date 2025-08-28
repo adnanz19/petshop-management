@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useEffect, useState} from "react";
-import { getCustomers, addCustomer, deleteCustomer } from "@/lib/firestore";
+import { getCustomers, addCustomer, deleteCustomer, Customer } from "@/lib/firestore";
 import { useRouter } from "next/navigation";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DialogHeader, DialogFooter } from "@/components/ui/dialog";
@@ -33,7 +33,7 @@ export default function CustomerPage() {
     const [gender, setGender] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
-    const [customers, setCustomers] = useState<any[]>([]);
+    const [customers, setCustomers] = useState<Customer[]>([]);
 
     const handleAddCustomer = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -143,39 +143,43 @@ export default function CustomerPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {customers.map((customer: any) => (
+                            {customers.map((customer: Customer) => (
                                 <TableRow key={customer.id}>
                                     <TableCell>{customer.name}</TableCell>
                                     <TableCell>{customer.gender}</TableCell>
                                     <TableCell>{customer.address}</TableCell>
                                     <TableCell>{customer.phone}</TableCell>
                                     <TableCell>
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button variant="destructive" size="sm">Delete</Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                            <DialogHeader>
-                                                <DialogTitle>Konfirmasi Hapus</DialogTitle>
-                                                <DialogDescription>
-                                                Apakah kamu yakin ingin menghapus data pelanggan ini? Tindakan ini tidak bisa dibatalkan.
-                                                </DialogDescription>
-                                            </DialogHeader>
-                                            <DialogFooter>
-                                                <DialogClose asChild>
-                                                    <Button variant="outline">Batal</Button>
-                                                </DialogClose>
-                                                <Button
-                                                variant="destructive"
-                                                onClick={async () => {
-                                                    await handleDeleteCustomer(customer.id);
-                                                }}
-                                                >
-                                                Hapus
-                                                </Button>
-                                            </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
+                                        {
+                                            isClient && (
+                                                <Dialog>
+                                                    <DialogTrigger asChild>
+                                                        <Button variant="destructive" size="sm">Delete</Button>
+                                                    </DialogTrigger>
+                                                    <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>Konfirmasi Hapus</DialogTitle>
+                                                        <DialogDescription>
+                                                        Apakah kamu yakin ingin menghapus data pelanggan ini? Tindakan ini tidak bisa dibatalkan.
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <DialogFooter>
+                                                        <DialogClose asChild>
+                                                            <Button variant="outline">Batal</Button>
+                                                        </DialogClose>
+                                                        <Button
+                                                        variant="destructive"
+                                                        onClick={async () => {
+                                                            await handleDeleteCustomer(customer.id);
+                                                        }}
+                                                        >
+                                                        Hapus
+                                                        </Button>
+                                                    </DialogFooter>
+                                                    </DialogContent>
+                                                </Dialog>
+                                            )
+                                        }
                                     </TableCell>
                                 </TableRow>
                             ))}
