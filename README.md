@@ -49,7 +49,7 @@ To run this project on your local machine, follow these steps:
     bun install
     ```
 
-4.  **Set Up Firebase**
+4.  Set Up Firebase
     * Create a new project in the Firebase Console.
     * Enable **Firestore** and **Authentication**.
     * In the Authentication section, enable the **Email/Password** sign-in method.
