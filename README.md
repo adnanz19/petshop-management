@@ -50,12 +50,12 @@ Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah ber
     ```
 
 4.  **Siapkan Firebase**
-    - a. Buat proyek baru di Firebase Console.
-    - b. Aktifkan **Firestore** dan **Authentication**.
-    - c. Di halaman Authentication, aktifkan metode masuk **Email/Password**.
-    - d. Tambahkan aplikasi web ke proyek Anda dan salin konfigurasi Firebase.
-    - e. Buat file `.env.local` di root proyek.
-    - f. Tambahkan konfigurasi Firebase yang telah Anda salin ke dalam file `.env.local` dengan format seperti di bawah ini:
+*   Buat proyek baru di Firebase Console.
+*   Aktifkan **Firestore** dan **Authentication**.
+*   Di halaman Authentication, aktifkan metode masuk **Email/Password**.
+*   Tambahkan aplikasi web ke proyek Anda dan salin konfigurasi Firebase.
+*   Buat file `.env.local` di root proyek.
+*   Tambahkan konfigurasi Firebase yang telah Anda salin ke dalam file `.env.local` dengan format seperti di bawah ini:
     ```
     NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
@@ -64,7 +64,7 @@ Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah ber
     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
     NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
     ```
-    - g. Setelah itu, Anda perlu membuat akun pengguna melalui Firebase Authentication Console agar bisa login ke aplikasi.
+*   Setelah itu, Anda perlu membuat akun pengguna melalui Firebase Authentication Console agar bisa login ke aplikasi.
 
 5.  Jalankan server pengembangan:
 
@@ -82,4 +82,10 @@ Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah ber
 
 ## AI Support
 
-Saat ini, proyek ini tidak menyertakan fitur atau dukungan AI apa pun.
+Dalam pengembangan proyek ini, AI digunakan sebagai asisten untuk mempercepat dan meningkatkan kualitas proses pengerjaan, termasuk:
+
+* **Integrasi Teknologi**: Membantu mempermudah integrasi antara Next.js dan Firebase.
+* **Pengembangan Logika**: Membantu menangani logika dari beberapa fungsi, seperti operasi CRUD data di Firestore.
+* **Debugging**: Menganalisis dan membantu memperbaiki error dalam kode.
+* **Refactoring Kode**: Mengubah kode dari JavaScript ke TypeScript untuk meningkatkan *type safety* dan *maintainability*.
+* **Dokumentasi**: Membantu menyusun dokumentasi proyek ini agar lebih terstruktur dan mudah dipahami.
