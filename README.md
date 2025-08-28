@@ -31,7 +31,7 @@ The system offers several key features to assist with pet shop management:
 * **Booking Management:** Schedule, view, and delete bookings for various services like grooming, boarding, and health check-ups.
 * **Authentication System:** A login feature ensures that only authorized users can access the management dashboard.
 
-## Installation Guide
+## Setup Instructions
 
 To run this project on your local machine, follow these steps:
 
