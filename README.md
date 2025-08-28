@@ -1,61 +1,61 @@
 # Petshop Management
 
-## Deskripsi
+## Description
 
-**Petshop Management** adalah sistem manajemen web untuk mempermudah operasional harian petshop. Aplikasi ini dirancang untuk membantu pemilik petshop mengelola data pelanggan, hewan peliharaan, inventaris, dan jadwal booking layanan.
+**Petshop Management** is a web-based management system designed to streamline the daily operations of a pet shop. This application helps pet shop owners manage customer data, pet information, inventory, and service booking schedules.
 
-## Teknologi yang Digunakan
+## Technologies Used
 
-Proyek ini dibangun menggunakan teknologi berikut:
+This project is built with the following technologies:
 
 * **Framework:** Next.js
-* **Bahasa Pemrograman:** TypeScript
-* **Database:** Firebase Firestore (untuk menyimpan data pelanggan, hewan, inventaris, dan booking)
-* **Autentikasi:** Firebase Auth (untuk login pengguna)
-* **Desain & UI:**
+* **Programming Language:** TypeScript
+* **Database:** Firebase Firestore (for storing customer, animal, inventory, and booking data)
+* **Authentication:** Firebase Auth (for user login)
+* **Design & UI:**
     * Tailwind CSS
-    * Shadcn UI (komponen seperti Card, Button, Input, Table, Dialog, Select, Popover, Calendar, dan Sidebar)
-    * `clsx` dan `tailwind-merge` untuk utilitas class
-    * `lucide-react` untuk ikon
-* **Lain-lain:**
-    * `next/font` untuk mengoptimalkan font Geist
-    * Middleware Next.js untuk proteksi rute dashboard
+    * Shadcn UI (components such as Card, Button, Input, Table, Dialog, Select, Popover, Calendar, and Sidebar)
+    * `clsx` and `tailwind-merge` for class utilities
+    * `lucide-react` for icons
+* **Others:**
+    * `next/font` for optimizing the Geist font
+    * Next.js Middleware for protecting dashboard routes
 
-## Fitur-fitur Utama
+## Key Features
 
-Sistem ini memiliki beberapa fitur utama untuk membantu manajemen petshop:
+The system offers several key features to assist with pet shop management:
 
-* **Manajemen Pelanggan:** Menambah, melihat, dan menghapus data pelanggan seperti nama, jenis kelamin, alamat, dan kontak.
-* **Manajemen Hewan:** Menambah, melihat, dan menghapus data hewan peliharaan yang terdaftar, termasuk nama, jenis, ras, jenis kelamin, usia, dan pemiliknya.
-* **Manajemen Inventaris:** Menambah, melihat, dan menghapus data stok barang, seperti nama, kategori, jumlah, dan harga.
-* **Manajemen Booking:** Menjadwalkan, melihat, dan menghapus booking untuk berbagai layanan, seperti grooming, penitipan, dan kesehatan.
-* **Sistem Autentikasi:** Fitur login untuk memastikan hanya pengguna yang memiliki otorisasi yang dapat mengakses dashboard manajemen.
+* **Customer Management:** Add, view, and delete customer data including name, gender, address, and contact information.
+* **Animal Management:** Add, view, and delete registered pet data, including their name, species, breed, gender, age, and owner.
+* **Inventory Management:** Add, view, and delete inventory stock data, such as item name, category, quantity, and price.
+* **Booking Management:** Schedule, view, and delete bookings for various services like grooming, boarding, and health check-ups.
+* **Authentication System:** A login feature ensures that only authorized users can access the management dashboard.
 
-## Cara Instalasi
+## Installation Guide
 
-Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah berikut:
+To run this project on your local machine, follow these steps:
 
-1.  Pastikan Anda memiliki Node.js dan npm (atau package manager lain seperti Yarn/pnpm/bun) terinstal.
-2.  Clone repositori proyek ini.
-3.  Instal semua dependensi yang diperlukan:
+1.  Make sure you have Node.js and a package manager like npm (or Yarn/pnpm/Bun) installed.
+2.  Clone this project repository.
+3.  Install all the required dependencies:
 
     ```bash
     npm install
-    # atau
+    # or
     yarn install
-    # atau
+    # or
     pnpm install
-    # atau
+    # or
     bun install
     ```
 
-4.  **Siapkan Firebase**
-*   Buat proyek baru di Firebase Console.
-*   Aktifkan **Firestore** dan **Authentication**.
-*   Di halaman Authentication, aktifkan metode masuk **Email/Password**.
-*   Tambahkan aplikasi web ke proyek Anda dan salin konfigurasi Firebase.
-*   Buat file `.env.local` di root proyek.
-*   Tambahkan konfigurasi Firebase yang telah Anda salin ke dalam file `.env.local` dengan format seperti di bawah ini:
+4.  **Set Up Firebase**
+    * Create a new project in the Firebase Console.
+    * Enable **Firestore** and **Authentication**.
+    * In the Authentication section, enable the **Email/Password** sign-in method.
+    * Add a web app to your project and copy the Firebase configuration.
+    * Create a `.env.local` file in the project's root directory.
+    * Add your Firebase configuration to the `.env.local` file using the following format:
     ```
     NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
@@ -64,28 +64,28 @@ Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah ber
     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
     NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
     ```
-*   Setelah itu, Anda perlu membuat akun pengguna melalui Firebase Authentication Console agar bisa login ke aplikasi.
+    * After that, you need to create a user account through the Firebase Authentication Console to be able to log into the application.
 
-5.  Jalankan server pengembangan:
+5.  Run the development server:
 
     ```bash
     npm run dev
-    # atau
+    # or
     yarn dev
-    # atau
+    # or
     pnpm dev
-    # atau
+    # or
     bun dev
     ```
 
-6.  Buka [http://localhost:3000](http://localhost:3000) di browser Anda untuk melihat hasilnya.
+6.  Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 ## AI Support
 
-Dalam pengembangan proyek ini, AI digunakan sebagai asisten untuk mempercepat dan meningkatkan kualitas proses pengerjaan, termasuk:
+During the development of this project, AI was used as an assistant to accelerate and improve the quality of the process, including:
 
-* **Integrasi Teknologi**: Membantu mempermudah integrasi antara Next.js dan Firebase.
-* **Pengembangan Logika**: Membantu menangani logika dari beberapa fungsi, seperti operasi CRUD data di Firestore.
-* **Debugging**: Menganalisis dan membantu memperbaiki error dalam kode.
-* **Refactoring Kode**: Mengubah kode dari JavaScript ke TypeScript untuk meningkatkan *type safety* dan *maintainability*.
-* **Dokumentasi**: Membantu menyusun dokumentasi proyek ini agar lebih terstruktur dan mudah dipahami.
+* **Technology Integration**: Helping to streamline the integration between Next.js and Firebase.
+* **Logic Development**: Assisting in handling the logic of several key functions, such as CRUD operations on Firestore data.
+* **Debugging**: Analyzing and helping to fix errors in the code.
+* **Code Refactoring**: Converting code from JavaScript to TypeScript to improve type safety and maintainability.
+* **Documentation**: Helping to structure and create this project documentation.
