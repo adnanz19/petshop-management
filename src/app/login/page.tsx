@@ -75,8 +75,7 @@ export default function LoginPage() {
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <CardDescription>
-                        Don't have an account? <></>
-                        <Link href="/register" className="text-[#9F580A] font-semibold hover:underline">Register</Link>
+                        Forgot Password? <a href="mailto:bima.adnandita@gmail.com" className="text-[#9F580A] font-semibold hover:underline">Message me</a>
                     </CardDescription>
                 </CardFooter>
             </Card>
