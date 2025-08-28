@@ -50,12 +50,12 @@ Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah ber
     ```
 
 4.  **Siapkan Firebase**
-    a.  Buat proyek baru di Firebase Console.
-    b.  Aktifkan **Firestore** dan **Authentication**.
-    c.  Di halaman Authentication, aktifkan metode masuk **Email/Password**.
-    d.  Tambahkan aplikasi web ke proyek Anda dan salin konfigurasi Firebase.
-    e.  Buat file `.env.local` di root proyek.
-    f.  Tambahkan konfigurasi Firebase yang telah Anda salin ke dalam file `.env.local` dengan format seperti di bawah ini:
+    1.  Buat proyek baru di Firebase Console.
+    2.  Aktifkan **Firestore** dan **Authentication**.
+    3.  Di halaman Authentication, aktifkan metode masuk **Email/Password**.
+    4.  Tambahkan aplikasi web ke proyek Anda dan salin konfigurasi Firebase.
+    5.  Buat file `.env.local` di root proyek.
+    6.  Tambahkan konfigurasi Firebase yang telah Anda salin ke dalam file `.env.local` dengan format seperti di bawah ini:
     ```
     NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
@@ -64,7 +64,7 @@ Untuk menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langkah ber
     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
     NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
     ```
-    g.  Setelah itu, Anda perlu membuat akun pengguna melalui Firebase Authentication Console agar bisa login ke aplikasi.
+    7.  Setelah itu, Anda perlu membuat akun pengguna melalui Firebase Authentication Console agar bisa login ke aplikasi.
 
 5.  Jalankan server pengembangan:
 
