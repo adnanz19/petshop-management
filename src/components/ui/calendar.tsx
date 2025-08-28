@@ -43,7 +43,7 @@ function Calendar({
       }}
       locale={id}
       classNames={{
-        root: cn("w-fit", defaultClassNames.root),
+        root: cn("w-fit border-[#9F580A] border", defaultClassNames.root),
         months: cn(
           "flex gap-4 flex-col md:flex-row relative",
           defaultClassNames.months

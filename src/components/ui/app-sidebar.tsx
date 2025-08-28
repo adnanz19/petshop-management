@@ -14,8 +14,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarFooter
+  SidebarFooter,
+  SidebarHeader
 } from "@/components/ui/sidebar"
+import Image from "next/image"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 // Menu items.
 const items = [
@@ -46,9 +49,11 @@ const router = useRouter();
 
   return (
     <Sidebar>
+      <SidebarHeader className="flex items-center justify-center mt-4">
+        <Image src="/logopetshop.svg" alt="Logo" width={200} height={100} />
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -66,7 +71,27 @@ const router = useRouter();
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Button variant="destructive" onClick={() => signOut(auth).then(() => router.push("/login"))}>Logout</Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="destructive">Logout</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Logout</DialogTitle>
+              <DialogDescription>
+                Apa kamu yakin ingin logout?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Batal</Button>
+              </DialogClose>
+              <Button variant="destructive" onClick={() => signOut(auth).then(() => router.push("/login"))}>
+                Logout
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </SidebarFooter>
     </Sidebar>
   )

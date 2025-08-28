@@ -15,6 +15,7 @@ import * as React from "react"
 import { ChevronDownIcon } from "lucide-react"
 import dynamic from "next/dynamic";
 import { set } from "date-fns";
+import { is } from "date-fns/locale";
 
 const Calendar = dynamic(() =>
   import("@/components/ui/calendar").then((mod) => mod.Calendar), 
@@ -72,7 +73,7 @@ export default function BookingPage() {
     }, []);
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 pt-3">
             <h1 className="font-bold text-2xl">Booking Layanan</h1>
             <div className="flex gap-4">
                 <Card className="w-full">
@@ -104,16 +105,20 @@ export default function BookingPage() {
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <Label>Nama Layanan</Label>
-                                    <Select value={service} onValueChange={setService}>
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Pilih layanan" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="grooming">Grooming</SelectItem>
-                                            <SelectItem value="boarding">Penitipan</SelectItem>
-                                            <SelectItem value="health">Kesehatan</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    {
+                                        isClient && (
+                                            <Select value={service} onValueChange={setService}>
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Pilih layanan" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="grooming">Grooming</SelectItem>
+                                                    <SelectItem value="boarding">Penitipan</SelectItem>
+                                                    <SelectItem value="health">Kesehatan</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        )
+                                    }
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <Label>Jadwal</Label>
@@ -172,63 +177,72 @@ export default function BookingPage() {
                     }}
                 />
             </div>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                    <TableHead>Nama Hewan</TableHead>
-                    <TableHead>Jenis Layanan</TableHead>
-                    <TableHead>Jadwal</TableHead>
-                    <TableHead>Waktu</TableHead>
-                    <TableHead>Aksi</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {bookings.map((booking: any) => (
-                        <TableRow key={booking.id}>
-                            <TableCell>{booking.animals.name}</TableCell>
-                            <TableCell>{booking.service}</TableCell>
-                            <TableCell>
-                                {booking.date
-                                    ? (booking.date.toDate 
-                                        ? booking.date.toDate().toLocaleDateString() 
-                                        : new Date(booking.date).toLocaleDateString() 
-                                    )
-                                    : ""
-                                }
-                            </TableCell>
-                            <TableCell>{booking.time}</TableCell>
-                            <TableCell>
-                                <Dialog>
-                                    <DialogTrigger asChild>
-                                        <Button variant="destructive" size="sm">Delete</Button>
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Konfirmasi Hapus</DialogTitle>
-                                            <DialogDescription>
-                                                Apakah kamu yakin ingin menghapus data pelanggan ini? Tindakan ini tidak bisa dibatalkan.
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                        <DialogFooter>
-                                            <DialogClose asChild>
-                                                <Button variant="outline">Batal</Button>
-                                            </DialogClose>
-                                            <Button
-                                                variant="destructive"
-                                                onClick={async () => {
-                                                    await handleDeleteBooking(booking.id);
-                                                }}
-                                            >
-                                                Hapus
-                                            </Button>
-                                        </DialogFooter>
-                                    </DialogContent>
-                                </Dialog>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            
+            <Card>
+                <CardHeader>
+                    <CardTitle>Jadwal Booking</CardTitle>
+                    <CardDescription>Berikut adalah jadwal booking yang telah dibuat.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                            <TableHead>Nama Hewan</TableHead>
+                            <TableHead>Jenis Layanan</TableHead>
+                            <TableHead>Jadwal</TableHead>
+                            <TableHead>Waktu</TableHead>
+                            <TableHead>Aksi</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {bookings.map((booking: any) => (
+                                <TableRow key={booking.id}>
+                                    <TableCell>{booking.animals.name}</TableCell>
+                                    <TableCell>{booking.service}</TableCell>
+                                    <TableCell>
+                                        {booking.date
+                                            ? (booking.date.toDate 
+                                                ? booking.date.toDate().toLocaleDateString() 
+                                                : new Date(booking.date).toLocaleDateString() 
+                                            )
+                                            : ""
+                                        }
+                                    </TableCell>
+                                    <TableCell>{booking.time}</TableCell>
+                                    <TableCell>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button variant="destructive" size="sm">Delete</Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>Konfirmasi Hapus</DialogTitle>
+                                                    <DialogDescription>
+                                                        Apakah kamu yakin ingin menghapus data pelanggan ini? Tindakan ini tidak bisa dibatalkan.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter>
+                                                    <DialogClose asChild>
+                                                        <Button variant="outline">Batal</Button>
+                                                    </DialogClose>
+                                                    <Button
+                                                        variant="destructive"
+                                                        onClick={async () => {
+                                                            await handleDeleteBooking(booking.id);
+                                                        }}
+                                                    >
+                                                        Hapus
+                                                    </Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
         </div>
     );
 }
