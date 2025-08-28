@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Petshop Management
 
-## Getting Started
+## Description
 
-First, run the development server:
+**Petshop Management** is a web-based management system designed to streamline the daily operations of a pet shop. This application helps pet shop owners manage customer data, pet information, inventory, and service booking schedules.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technologies Used
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project is built with the following technologies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **Framework:** Next.js
+* **Programming Language:** TypeScript
+* **Database:** Firebase Firestore (for storing customer, animal, inventory, and booking data)
+* **Authentication:** Firebase Auth (for user login)
+* **Design & UI:**
+    * Tailwind CSS
+    * Shadcn UI (components such as Card, Button, Input, Table, Dialog, Select, Popover, Calendar, and Sidebar)
+    * `clsx` and `tailwind-merge` for class utilities
+    * `lucide-react` for icons
+* **Others:**
+    * `next/font` for optimizing the Geist font
+    * Next.js Middleware for protecting dashboard routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Key Features
 
-## Learn More
+The system offers several key features to assist with pet shop management:
 
-To learn more about Next.js, take a look at the following resources:
+* **Customer Management:** Add, view, and delete customer data including name, gender, address, and contact information.
+* **Animal Management:** Add, view, and delete registered pet data, including their name, species, breed, gender, age, and owner.
+* **Inventory Management:** Add, view, and delete inventory stock data, such as item name, category, quantity, and price.
+* **Booking Management:** Schedule, view, and delete bookings for various services like grooming, boarding, and health check-ups.
+* **Authentication System:** A login feature ensures that only authorized users can access the management dashboard.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Setup Instructions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To run this project on your local machine, follow these steps:
 
-## Deploy on Vercel
+1.  Make sure you have Node.js and a package manager like npm (or Yarn/pnpm/Bun) installed.
+2.  Clone this project repository.
+3.  Install all the required dependencies:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    npm install
+    # or
+    yarn install
+    # or
+    pnpm install
+    # or
+    bun install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4.  Set Up Firebase
+    * Create a new project in the Firebase Console.
+    * Enable **Firestore** and **Authentication**.
+    * In the Authentication section, enable the **Email/Password** sign-in method.
+    * Add a web app to your project and copy the Firebase configuration.
+    * Create a `.env.local` file in the project's root directory.
+    * Add your Firebase configuration to the `.env.local` file using the following format:
+    ```
+    NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+    NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+    ```
+    * After that, you need to create a user account through the Firebase Authentication Console to be able to log into the application.
+
+5.  Run the development server:
+
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    # or
+    pnpm dev
+    # or
+    bun dev
+    ```
+
+6.  Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+## AI Support
+
+During the development of this project, AI was used as an assistant to accelerate and improve the quality of the process, including:
+
+* **Technology Integration**: Helping to streamline the integration between Next.js and Firebase.
+* **Logic Development**: Assisting in handling the logic of several key functions, such as CRUD operations on Firestore data.
+* **Debugging**: Analyzing and helping to fix errors in the code.
+* **Code Refactoring**: Converting code from JavaScript to TypeScript to improve type safety and maintainability.
+* **Documentation**: Helping to structure and create this project documentation.
