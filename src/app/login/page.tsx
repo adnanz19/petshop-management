@@ -26,8 +26,12 @@ export default function LoginPage() {
             try {
                 await loginUser(email, password);
                 router.push("/dashboard/customer");
-            } catch (error: any) {
-                setError(error.message || "Failed to login");
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    setError(error.message);
+                } else {
+                    setError("Failed to login");
+                }
             } finally {
                 setLoading(false);
             }

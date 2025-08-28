@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { use, useEffect, useState} from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { getBookings, addBooking, deleteBooking } from "@/lib/firestore";
-import { getAnimals } from "@/lib/firestore";
+import { getBookings, addBooking, deleteBooking, Booking } from "@/lib/firestore";
+import { getAnimals, Animal } from "@/lib/firestore";
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import * as React from "react"
@@ -23,13 +23,13 @@ const Calendar = dynamic(() =>
 )
 
 export default function BookingPage() {
-    const [animals, setAnimals] = useState<any[]>([]);
+    const [animals, setAnimals] = useState<Animal[]>([]);
     const [service, setService] = useState("");
     const [date, setDate] = React.useState<Date | undefined>(undefined);
     const [time, setTime] = useState("");
     const [selectedAnimal, setSelectedAnimal] = useState<string>("");
     const [open, setOpen] = useState(false)
-    const [bookings, setBookings] = useState<any[]>([]);
+    const [bookings, setBookings] = useState<Booking[]>([]);
     const [isClient, setIsClient] = useState(false)
 
     useEffect(() => {
@@ -40,9 +40,13 @@ export default function BookingPage() {
 
     const handleAddBooking = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const animalObj = animals.find((animal: any) => animal.id === selectedAnimal);
-        const newBooking = {
-            animals: animalObj ? animalObj : " ",
+        const animalObj = animals.find((animal: Animal) => animal.id === selectedAnimal);
+        if (!animalObj) return alert("Pilih hewan dulu");
+        if (!date) return alert("Pilih tanggal dulu");
+        if (!service) return alert("Pilih layanan dulu");
+        if (!time) return alert("Pilih waktu dulu");
+        const newBooking: Booking = {
+            animals: animalObj,
             service,
             date,
             time
@@ -95,8 +99,8 @@ export default function BookingPage() {
                                             <SelectValue placeholder="Pilih hewan" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {animals.map((animal: any) => (
-                                                <SelectItem key={animal.id} value={animal.id}>
+                                            {animals.map((animal: Animal) => (
+                                                <SelectItem key={animal.id} value={animal.id!}>
                                                     {animal.name}
                                                 </SelectItem>
                                             ))}
@@ -195,18 +199,12 @@ export default function BookingPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {bookings.map((booking: any) => (
+                            {bookings.map((booking: Booking) => (
                                 <TableRow key={booking.id}>
                                     <TableCell>{booking.animals.name}</TableCell>
                                     <TableCell>{booking.service}</TableCell>
                                     <TableCell>
-                                        {booking.date
-                                            ? (booking.date.toDate 
-                                                ? booking.date.toDate().toLocaleDateString() 
-                                                : new Date(booking.date).toLocaleDateString() 
-                                            )
-                                            : ""
-                                        }
+                                        {booking.date ? booking.date.toLocaleDateString() : ""}
                                     </TableCell>
                                     <TableCell>{booking.time}</TableCell>
                                     <TableCell>
@@ -228,7 +226,7 @@ export default function BookingPage() {
                                                     <Button
                                                         variant="destructive"
                                                         onClick={async () => {
-                                                            await handleDeleteBooking(booking.id);
+                                                            await handleDeleteBooking(booking.id!);
                                                         }}
                                                     >
                                                         Hapus

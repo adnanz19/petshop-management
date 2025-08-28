@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useEffect, useState} from "react";
-import { getInventoryItems, addInventoryItem, deleteInventoryItem } from "@/lib/firestore";
+import { getInventoryItems, addInventoryItem, deleteInventoryItem, Inventory } from "@/lib/firestore";
 import { useRouter } from "next/navigation";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DialogHeader, DialogFooter } from "@/components/ui/dialog";
@@ -34,7 +34,7 @@ export default function InventoryPage() {
     const [category, setCategory] = useState("");
     const [stock, setStock] = useState("");
     const [price, setPrice] = useState("");
-    const [inventoryItems, setInventoryItems] = useState<any[]>([]);
+    const [inventoryItems, setInventoryItems] = useState<Inventory[]>([]);
 
     const handleAddInventoryItem = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -146,7 +146,7 @@ export default function InventoryPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {inventoryItems.map((item: any) => (
+                            {inventoryItems.map((item: Inventory) => (
                                 <TableRow key={item.id}>
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.category}</TableCell>
@@ -171,7 +171,7 @@ export default function InventoryPage() {
                                                 <Button
                                                 variant="destructive"
                                                 onClick={async () => {
-                                                    await handleDeleteInventoryItem(item.id);
+                                                    await handleDeleteInventoryItem(item.id!);
                                                 }}
                                                 >
                                                 Hapus
