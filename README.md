@@ -9,6 +9,7 @@
 This project is built with the following technologies:
 
 * **Framework:** Next.js
+* **Library:** React
 * **Programming Language:** TypeScript
 * **Database:** Firebase Firestore (for storing customer, animal, inventory, and booking data)
 * **Authentication:** Firebase Auth (for user login)
