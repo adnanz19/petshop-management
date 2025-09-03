@@ -98,7 +98,7 @@ During the development of this project, AI was used as an assistant to accelerat
 * Password : admin1234
 
 **Account 2**
-* Email admin2@gmail.com
+* Email : admin2@gmail.com
 * Password : admin4567
 
 **Account 3**
